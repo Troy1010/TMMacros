@@ -7,7 +7,9 @@ import fs from 'fs';
 export class Config extends Data {
     constructor(
         public gitKrakenDir: string,
-        public developGenericFolder: string
+        public developGenericFolder: string,
+        public bossFile: string,
+        public oblivionFile: string,
     ) {
         super();
     }

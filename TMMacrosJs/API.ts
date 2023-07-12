@@ -1,5 +1,5 @@
 import * as Misc from './Misc';
-import {openFolderOrFile, sleep} from './Misc';
+import {openFolderOrFile, sleep, waitForActiveWindow} from './Misc';
 import {ScreenSectionType} from "./ScreenSection";
 import OSType, {osType} from './OSType';
 import {Log, logz} from "./TMLogger";
@@ -15,6 +15,7 @@ import {open2} from "./open2";
 import DebugHelper from "./DebugHelper";
 import ExecWrapper from "./ExecWrapper";
 import path from 'path';
+import {MsgBox} from "./MsgBox";
 
 export class API {
     @logMethodName
@@ -22,11 +23,44 @@ export class API {
     static playground() {
         logz("Hello")
 
-        logz(`config():${config()}`)
+        MsgBox("Yeah")
 
-        API.openGitClient()
+
+        // if (osType == OSType.Windows) {
+        //     const command = `PowerShell -Command "Add-Type -AssemblyName PresentationFramework;[System.Windows.MessageBox]::Show('Hello World')"`
+        //     exec(command, (error, stdout, stderr) => {
+        //         if (error) {
+        //             Log.d(`Error executing command: ${error.message}`);
+        //             return;
+        //         }
+        //         Log.d(`Command output:\n${stdout}`);
+        //     });
+        // } else {
+        //     TODO()
+        // }
+
+
+        // PowerShell -Command "Add-Type -AssemblyName PresentationFramework;[System.Windows.MessageBox]::Show('Hello World')"
 
         DebugHelper.openLog()
+
+        // Ext.create('Ext.window.MessageBox', {
+        //     alwaysOnTop: true,
+        //     closeAction: 'destroy'
+        // }).show({
+        //     title: 'Title',
+        //     buttons: Ext.Msg.OK,
+        //     message: 'Message'
+        // });
+
+
+        //alert("Hi")
+
+        // logz(`config():${config()}`)
+        //
+        // API.openGitClient()
+        //
+        //DebugHelper.openLog()
 
         // windowManager.getActiveWindow().setBounds(ScreenSectionType.big_right.toRectangle())
 
@@ -90,6 +124,26 @@ export class API {
         //         clearInterval(intervalId);
         //     }
         // }, 2000);
+    }
+
+
+    @logMethodName
+    @logExecutionTime
+    static bossThenOblivion() {
+        if (osType == OSType.Windows) {
+            const command = `start ${config().bossFile}`
+            exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    Log.d(`Error executing command: ${error.message}`);
+                    return;
+                }
+                Log.d(`Command output:\n${stdout}`);
+            });
+        } else {
+            TODO()
+        }
+        Misc.waitForActiveWindow("Boss")
+        alert("Hi")
     }
 
 
