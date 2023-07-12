@@ -13,8 +13,11 @@ function fileExists(filePath: string): boolean {
     }
 }
 
-export function open2(filePath: string): void {
-    if (!fileExists(filePath))
+/**
+ * For some reason, some link files are not recognized by fileExists, which is what the withFileExistsCheck param is for.
+ */
+export function open2(filePath: string, withFileExistsCheck: boolean = true): void {
+    if (withFileExistsCheck && !fileExists(filePath))
         throw Error(`File does not exist:${filePath}`)
 
     let command: string;

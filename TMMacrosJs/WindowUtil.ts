@@ -48,6 +48,41 @@ export default class WindowUtil {
         return `title:${window.getTitle()}, path:${window.path}, bounds:${window.getBounds().letZ(it => [it.x, it.y, it.width, it.height])}, isVisible:${window.isVisible()} ownerPath:${window.getOwner().path}, ownerTitle:${window.getOwner().getTitle()}`
     }
 
+    static waitForActiveWindow(...strings: string[]) {
+        while (true) {
+            const windowZ = windowManager.getActiveWindow()
+            if (WindowUtil.relaxedEquals(windowZ, ...strings))
+                return windowZ
+            sleep(500)
+        }
+    }
+
+    static waitForWindow(...strings: string[]): Window {
+        while (true) {
+            let foundWindow: Window | null = null;
+            windowManager.getWindows().forEach(windowZ => {
+                if (WindowUtil.relaxedEquals(windowZ, ...strings))
+                    foundWindow = windowZ
+            })
+            if (foundWindow != null)
+                return foundWindow
+            sleep(500)
+        }
+    }
+
+    static waitForNoWindow(...strings: string[]) {
+        while (true) {
+            let foundWindow: Window | null = null;
+            windowManager.getWindows().forEach(windowZ => {
+                if (WindowUtil.relaxedEquals(windowZ, ...strings))
+                    foundWindow = windowZ
+            })
+            if (foundWindow == null)
+                return
+            sleep(500)
+        }
+    }
+
     static waitForNotActive(window: Window): [Window, Window] {
         while (true) {
             const windowZ = windowManager.getActiveWindow()

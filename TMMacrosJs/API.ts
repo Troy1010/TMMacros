@@ -23,7 +23,7 @@ export class API {
     static playground() {
         logz("Hello")
 
-        MsgBox("Yeah")
+        //open2(config().bossFile, false)
 
 
         // if (osType == OSType.Windows) {
@@ -130,20 +130,12 @@ export class API {
     @logMethodName
     @logExecutionTime
     static bossThenOblivion() {
-        if (osType == OSType.Windows) {
-            const command = `start ${config().bossFile}`
-            exec(command, (error, stdout, stderr) => {
-                if (error) {
-                    Log.d(`Error executing command: ${error.message}`);
-                    return;
-                }
-                Log.d(`Command output:\n${stdout}`);
-            });
-        } else {
-            TODO()
-        }
-        Misc.waitForActiveWindow("Boss")
-        alert("Hi")
+        open2(config().bossFile, false)
+        WindowUtil.waitForWindow("Boss")
+            .bringToTop()
+        WindowUtil.waitForNoWindow("Boss")
+        sleep(2000)
+        open2(config().oblivionFile, false)
     }
 
 

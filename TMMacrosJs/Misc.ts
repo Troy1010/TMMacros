@@ -45,6 +45,7 @@ export function activeWindowScreenSection(): ScreenSection | null {
     return null;
 }
 
+// DEPRECATED: Use WindowUtil.waitForActiveWindow() instead.
 export function waitForActiveWindow(...strings: string[]) {
     while (true) {
         const windowZ = windowManager.getActiveWindow()
