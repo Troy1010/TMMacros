@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AMApplicationBuild</key>
+	<string>329</string>
+	<key>AMApplicationVersion</key>
+	<string>2.2</string>
+	<key>AMDocumentVersion</key>
+	<string>2</string>
+	<key>actions</key>
+	<array>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0.1</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>Run AppleScript</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>on run {inputFiles, parameters}
+	try
+		set aListOfPaths to {}
+		-- convert aliases to POSIX paths
+		repeat with al in inputFiles
+			set aPath to POSIX path of al
+			set aListOfPaths to aListOfPaths &amp; aPath
+		end repeat
+		
+		set hasOnlyOneZipFile to false
+		set hasOnlyOne7zOrRarFile to false
+		
+		-- we have different behavior if there is only one file, and it is a zip file
+		if length of aListOfPaths is equal to 1 then
+			set fileName to item 1 of aListOfPaths
+			tell application "Finder"
+				try
+					set theFile to document file ((fileName as POSIX file) as alias)
+					set ext to the name extension of theFile
+					if ext is equal to "zipx" or ¬
+						ext is equal to "zip" or ¬
+						ext is equal to "lha" then
+						set hasOnlyOneZipFile to true
+					else
+						if ext is equal to "7z" or ¬
+							ext is equal to "rar" then
+							set hasOnlyOne7zOrRarFile to true
+						end if
+					end if
+				end try
+				-- if there was an error, likely the one file was a folder, in which case its not a zip file
+			end tell
+			
+		end if
+		
+		
+		-- if there is only a single zip file, then we simply open and email that file
+		if hasOnlyOneZipFile or hasOnlyOne7zOrRarFile then
+			tell application "WinZip"
+				flip welcome
+				with timeout of 86400 seconds -- one whole day to do the extraction
+					
+					activate
+					repeat while nagging
+						delay 0.5
+					end repeat
+					set archive to quietly open item 1 of aListOfPaths
+					
+					tell archive
+						if images are present and ¬
+							hasOnlyOneZipFile then
+							
+							email with user selected image size
+							
+							
+						else
+							email
+						end if
+						repeat while busy
+							delay 0.5
+						end repeat
+						
+						close
+					end tell
+				end timeout
+				flip welcome
+			end tell
+			
+		else
+			tell application "WinZip"
+				flip welcome
+				with timeout of 86400 seconds -- one whole day to do the extraction
+					
+					activate
+					repeat while nagging
+						delay 0.5
+					end repeat
+					set archive to email archive with files aListOfPaths
+					if archive is not missing value then
+						tell archive
+							-- add the files to the archive
+							add files aListOfPaths
+							
+							-- wait for that operation to finish
+							repeat while busy
+								delay 0.5
+							end repeat
+							
+							
+							email
+							
+							repeat while busy
+								delay 0.5
+							end repeat
+							
+							set fullPath to path
+							close
+						end tell
+						
+						-- delete the temporary file we created
+						tell application "Finder"
+							if exists file fullPath as POSIX file then
+								delete file fullPath as POSIX file
+							end if
+						end tell
+					end if
+				end timeout
+				flip welcome
+			end tell
+		end if
+	end try
+end run</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.1</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>InputUUID</key>
+				<string>89F077DD-4B57-41B1-A070-E84C56671AF1</string>
+				<key>Keywords</key>
+				<array>
+					<string>Run</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>9876ADB7-9A22-4767-8D9C-FF5290524C5B</string>
+				<key>UUID</key>
+				<string>10AE39DF-C2A1-44A2-B043-F595B91EBB74</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<true/>
+				<key>location</key>
+				<string>529.500000:622.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/English.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<true/>
+		</dict>
+	</array>
+	<key>connectors</key>
+	<dict/>
+	<key>state</key>
+	<dict>
+		<key>AMLogTabViewSelectedIndex</key>
+		<integer>1</integer>
+		<key>libraryState</key>
+		<dict>
+			<key>actionsMajorSplitViewState</key>
+			<dict>
+				<key>expandedPosition</key>
+				<real>0.0</real>
+				<key>subviewState</key>
+				<array>
+					<string>0.000000, 0.000000, 381.000000, 567.000000, NO</string>
+					<string>0.000000, 568.000000, 381.000000, 184.000000, NO</string>
+				</array>
+			</dict>
+			<key>actionsMinorSplitViewState</key>
+			<dict>
+				<key>expandedPosition</key>
+				<real>0.0</real>
+				<key>subviewState</key>
+				<array>
+					<string>0.000000, 0.000000, 163.000000, 567.000000, NO</string>
+					<string>164.000000, 0.000000, 217.000000, 567.000000, NO</string>
+				</array>
+			</dict>
+			<key>variablesMajorSplitViewState</key>
+			<dict>
+				<key>expandedPosition</key>
+				<real>0.0</real>
+				<key>subviewState</key>
+				<array>
+					<string>0.000000, 0.000000, 381.000000, 555.000000, NO</string>
+					<string>0.000000, 556.000000, 381.000000, 144.000000, NO</string>
+				</array>
+			</dict>
+			<key>variablesMinorSplitViewState</key>
+			<dict>
+				<key>expandedPosition</key>
+				<real>0.0</real>
+				<key>subviewState</key>
+				<array>
+					<string>0.000000, 0.000000, 163.000000, 555.000000, NO</string>
+					<string>164.000000, 0.000000, 217.000000, 555.000000, NO</string>
+				</array>
+			</dict>
+		</dict>
+		<key>majorSplitViewState</key>
+		<dict>
+			<key>expandedPosition</key>
+			<real>0.0</real>
+			<key>subviewState</key>
+			<array>
+				<string>0.000000, 0.000000, 381.000000, 797.000000, NO</string>
+				<string>382.000000, 0.000000, 1059.000000, 797.000000, NO</string>
+			</array>
+		</dict>
+		<key>minorSplitViewState</key>
+		<dict>
+			<key>expandedPosition</key>
+			<real>0.0</real>
+			<key>subviewState</key>
+			<array>
+				<string>0.000000, 0.000000, 1059.000000, 606.000000, NO</string>
+				<string>0.000000, 616.000000, 1059.000000, 162.000000, NO</string>
+			</array>
+		</dict>
+		<key>windowFrame</key>
+		<string>{{133, 179}, {1440, 874}}</string>
+		<key>workflowViewScrollPosition</key>
+		<string>{{0, 0}, {1044, 606}}</string>
+	</dict>
+	<key>workflowMetaData</key>
+	<dict>
+		<key>serviceApplicationBundleID</key>
+		<string>com.apple.finder</string>
+		<key>serviceApplicationPath</key>
+		<string>/System/Library/CoreServices/Finder.app</string>
+		<key>serviceInputTypeIdentifier</key>
+		<string>com.apple.Automator.fileSystemObject</string>
+		<key>serviceOutputTypeIdentifier</key>
+		<string>com.apple.Automator.nothing</string>
+		<key>serviceProcessesInput</key>
+		<integer>0</integer>
+		<key>workflowTypeIdentifier</key>
+		<string>com.apple.Automator.servicesMenu</string>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSSendFileTypes</key>
+			<array>
+				<string>com.winzip.zip-archive</string>
+				<string>public.zip-archive</string>
+				<string>com.winzip.zipx-archive</string>
+				<string>com.winzip.lha-archive</string>
+				<string>public.archive.lha</string>
+				<string>com.rarlab.rar-archive</string>
+				<string>org.7-zip.7-zip-archive</string>
+				<string>dyn.ah62d4rv4ge81u8u</string>
+				<string>dyn.ah62d4rv4ge81k8d4</string>
+				<string>dyn.ah62d4rv4ge81q4de</string>
+				<string>dyn.ah62d4rv4ge81q5perq</string>
+				<string>public.bzip2-archive</string>
+				<string>public.tar-bzip2-archive</string>
+				<string>org.gnu.gnu-zip-archive</string>
+				<string>org.gnu.gnu-zip-tar-archive</string>
+				<string>public.tar-archive</string>
+				<string>public.z-archive</string>
+				<string>dyn.ah62d4rv4ge81k8u</string>
+				<string>dyn.ah62d4rv4ge81k2p4</string>
+			</array>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>Replace Zip files with Zip content</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>runWorkflowAsService</string>
+			<key>NSRequiredContext</key>
+			<dict>
+				<key>NSApplicationIdentifier</key>
+				<string>com.apple.finder</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

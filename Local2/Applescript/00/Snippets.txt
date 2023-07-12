@@ -1,0 +1,41 @@
+	tell application "System Events"		set application process "Cisco AnyConnect Secure Mobility Client"'s visible to true	end tell
+--
+on run argv	set scpt to "on run argv2
+(item 1 of argv2)'s " & item 1 of argv & "()
+	end"		run script scpt with parameters {me}end run
+--
+To prevent terminal staying open..
+Instead of:
+tell application "Terminal"	do script "osascript /Users/gzmyrl/Applescripts/TMKeyset.app Playground"end tellUse:do shell script ("osascript /Users/gzmyrl/Applescripts/TMKeyset.app Playground")
+
+--
+*property the_path : "/Volumes/MyMacDrive/Mani/WorkSpace/"
+	set the_folder to (POSIX file the_path) as alias
+	tell application "Finder"
+	   	activate
+	    if window 1 exists then
+	        set target of window 1 to the_folder
+	    else
+        reveal the_folder
+	    end if
+	end tell*
+
+
+
+	set theDialogText to "The current date and time is " & (current date) & "."	display dialog theDialogText
+
+	tell application "Android Studio 2"		if it is not running then launch		set frontmost to true		activate	end tell
+
+		set x to input	tell application "Finder" to make new file at (the target of input) as alias
+
+	set my_path to (((path to me as text) & "::") as alias) as string
+
+// Golden	set fileInfo to info for input		set filename to name of fileInfo		display dialog filename
+
+// also golden
+
+tell application "Finder" 
+ 
+set foldername to (get name of (container of myFile))
+ 
+end tell
