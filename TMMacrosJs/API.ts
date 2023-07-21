@@ -24,7 +24,7 @@ export class API {
         logz("Hello");
 
         (async () => {
-            const isRunning = await Misc.isObsidianRunning();
+            const isRunning = await Misc.isProcessRunning("Obsidian");
             if (isRunning) {
               logz('Obsidian is currently running.');
             } else {

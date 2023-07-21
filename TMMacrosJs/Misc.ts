@@ -17,23 +17,26 @@ import ListUtil from "./ListUtil";
 //     });
 // }
 
-export function isObsidianRunning() {
+export function isProcessRunning(s: string) {
+    let command:string;
+    if (osType == OSType.Windows) {
+        command = 'tasklist'
+    } else {
+        command = 'ps -A'
+    }
     return new Promise((resolve, reject) => {
-      // Execute the shell command to list the running processes
-      exec('ps -A', (error, stdout, stderr) => {
-        if (error) {
-          console.error('Error checking for processes:', error.message);
-          reject(error);
-          return;
-        }
-  
-        // Check if Obsidian is among the running processes
-        if (stdout.toLowerCase().includes('obsidian')) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      });
+        exec(command, (error, stdout, stderr) => {
+          if (error) {
+            console.error('Error checking for processes:', error.message);
+            reject(error);
+            return;
+          }
+          if (stdout.toLowerCase().includes(s.toLowerCase())) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
     });
 }
 
