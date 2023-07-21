@@ -17,7 +17,7 @@ import ListUtil from "./ListUtil";
 //     });
 // }
 
-export function isProcessRunning(s: string) {
+export function isProcessRunning(s: string): Promise<boolean> {
     let command:string;
     if (osType == OSType.Windows) {
         command = 'tasklist'

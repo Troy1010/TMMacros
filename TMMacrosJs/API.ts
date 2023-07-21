@@ -154,13 +154,23 @@ export class API {
     @logMethodName
     @logExecutionTime
     static openWorkThoughtStream() {
-        // # If there is an old Obsidian window, kill it.
-        // This is a duct-tape solution bc I don't know how to move windows between desktops.
-        Misc.quit("Obsidian")
-        sleep(2000) // TODO: race condition
-        // # Open Obsidian at WorkThoughtStream
-        if (osType == OSType.Windows) {
-            const command = "start obsidian://open?vault=ObsidianVault_TroyGM&file=ThoughtStream"
+        (async () => {
+            // # If there is an old Obsidian window, kill it.
+            // ^This is a duct-tape solution bc I don't know how to move windows between desktops.
+            if (await Misc.isProcessRunning("Obsidian")) {
+                Log.d("Quitting isObsidianRunning bc it was running.")
+                Misc.quit("Obsidian")
+                sleep(2000) // TODO: race condition
+            } else {
+                Log.d("Obsidian was not running. Moving forward.")
+            }
+            // # Open Obsidian at WorkThoughtStream
+            let command: string;
+            if (osType == OSType.Windows) {
+                command = "start obsidian://open?vault=ObsidianVault_TroyGM&file=ThoughtStream"
+            } else {
+                command = 'open "obsidian://open?vault=ObsidianVault_TroyGM&file=ThoughtStream"'
+            }
             exec(command, (error, stdout, stderr) => {
                 if (error) {
                     Log.d(`Error executing command: ${error.message}`);
@@ -168,22 +178,11 @@ export class API {
                 }
                 Log.d(`Command output:\n${stdout}`);
             });
-        } else {
-            const command = 'open "obsidian://open?vault=ObsidianVault_TroyGM&file=ThoughtStream"'
-            exec(command, (error, stdout, stderr) => {
-                if (error) {
-                    Log.d(`Error executing command: ${error.message}`);
-                    return;
-                }
-                Log.d(`Command output:\n${stdout}`);
-            });
-        }
-        // # Reposition
-        WindowUtil.waitForActiveWindow("Obsidian")
-            .also(x => Log.d(`About to move ActiveWindow:${WindowUtil.toLogStr(x)}`))
-            .setBounds(ScreenSectionType.big_right_three.toRectangle())
-        //
-        DebugHelper.openLog()
+            // # Reposition
+            WindowUtil.waitForActiveWindow("Obsidian")
+                .also(x => Log.d(`About to move ActiveWindow:${WindowUtil.toLogStr(x)}`))
+                .setBounds(ScreenSectionType.big_right_three.toRectangle())
+        })();
     }
 
 
