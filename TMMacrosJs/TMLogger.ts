@@ -36,7 +36,8 @@ function internalLog(msg: any | null, e: Error | null = null) {
 export enum LogLevel {
     INFO,
     DEBUG,
-    VERBOSE
+    VERBOSE,
+    FLOODING
 }
 
 export class Log {
@@ -54,6 +55,11 @@ export class Log {
 
     static v(msg: any | null, e: Error | null = null) {
         if (Log.logLevel >= LogLevel.VERBOSE)
+            internalLog(msg, e)
+    }
+
+    static f(msg: any | null, e: Error | null = null) {
+        if (Log.logLevel >= LogLevel.FLOODING)
             internalLog(msg, e)
     }
 }

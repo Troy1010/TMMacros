@@ -6,11 +6,6 @@ import WindowUtil from "./WindowUtil";
 import {open2} from "./open2";
 
 export default class DebugHelper {
-    static logActiveWindow() {
-        const activeWindow = windowManager.getActiveWindow()
-        logz(WindowUtil.logStr(activeWindow))
-    }
-
     static openLog() {
         try {
             open2(logFilePath)

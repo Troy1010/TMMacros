@@ -18,15 +18,28 @@ import ListUtil from "./ListUtil";
 // }
 
 export function quit(s: string) {
-    exec(`taskkill /F /IM ${s}`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error executing command: ${error.message}`);
-            return;
-        }
-
-        // Process the output
-        Log.d(`Command output:\n${stdout}`);
-    });
+    if (osType == OSType.Windows) {
+        exec(`taskkill /F /IM ${s}`, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error executing command: ${error.message}`);
+                return;
+            }
+            Log.d(`Command output:\n${stdout}`);
+        });
+    } else {
+        const script = `
+          tell application "${s}"
+            quit
+          end tell
+        `;
+        exec(`osascript -e '${script}'`, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error executing command: ${error.message}`);
+                return;
+            }
+            Log.d(`Command output:\n${stdout}`);
+        });
+    }
 }
 
 export function activeWindowScreenSection(): ScreenSection | null {

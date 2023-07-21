@@ -127,9 +127,51 @@ export class API {
     }
 
 
+    // TODO
     @logMethodName
     @logExecutionTime
     static openWorkBacklog() {
+        // If there is an old Obsidian window, kill it. This is a duct-tape solution bc I don't know how to move windows between desktops.
+        Misc.quit("Obsidian")
+        sleep(2000) // TODO: race condition to resolve
+        //
+        DebugHelper.openLog()
+    }
+
+
+    // TODO
+    @logMethodName
+    @logExecutionTime
+    static openWorkThoughtStream() {
+        // # If there is an old Obsidian window, kill it.
+        // This is a duct-tape solution bc I don't know how to move windows between desktops.
+        Misc.quit("Obsidian")
+        sleep(2000) // TODO: race condition
+        // # Open Obsidian at WorkThoughtStream
+        if (osType == OSType.Windows) {
+            const command = "start obsidian://open?vault=ObsidianVault_TroyGM&file=ThoughtStream"
+            exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    Log.d(`Error executing command: ${error.message}`);
+                    return;
+                }
+                Log.d(`Command output:\n${stdout}`);
+            });
+        } else {
+            const command = 'open "obsidian://open?vault=ObsidianVault_TroyGM&file=ThoughtStream"'
+            exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    Log.d(`Error executing command: ${error.message}`);
+                    return;
+                }
+                Log.d(`Command output:\n${stdout}`);
+            });
+        }
+        // # Reposition
+        WindowUtil.waitForActiveWindow("Obsidian")
+            .also(x => Log.d(`About to move ActiveWindow:${WindowUtil.toLogStr(x)}`))
+            .setBounds(ScreenSectionType.big_right_three.toRectangle())
+        //
         DebugHelper.openLog()
     }
 
@@ -151,7 +193,7 @@ export class API {
     static launchObsidian() {
         // If there is an old Obsidian window, kill it. This is a duct-tape solution bc I don't know how to move windows between desktops.
         Misc.findWindow("Obsidian")
-            ?.also(x => Log.d(`Obsidian window:${WindowUtil.logStr(x)}`))
+            ?.also(x => Log.d(`Obsidian window:${WindowUtil.toLogStr(x)}`))
             ?.also(x => ExecWrapper.kill(x.processId))
             ?.also(x => sleep(2000))
         //
@@ -193,7 +235,7 @@ export class API {
     @logExecutionTime
     static openGitClient() {
         Misc.findWindow("GitKraken")
-            ?.also(x => Log.d(`gitkrakenWindow:${WindowUtil.logStr(x)}`))
+            ?.also(x => Log.d(`gitkrakenWindow:${WindowUtil.toLogStr(x)}`))
             ?.also(x => ExecWrapper.kill(x.processId))
             ?.also(x => sleep(2000))
         openFolderOrFile(config().gitKrakenDir)

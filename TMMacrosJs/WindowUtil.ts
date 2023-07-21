@@ -3,7 +3,7 @@ import {Window, windowManager} from 'node-window-manager';
 import ffi from 'ffi-napi';
 import "./let";
 import {IRectangle} from "node-window-manager/dist/interfaces";
-import {Log} from "./TMLogger";
+import {Log, logz} from "./TMLogger";
 import {getScreenSectionType, ScreenSection} from "./ScreenSection";
 import {sleep} from "./Misc";
 
@@ -38,13 +38,13 @@ export default class WindowUtil {
         const lowerCaseStrings = strings.map((s) => s.toLowerCase());
         return lowerCaseStrings.some((s) =>
             // @ts-ignore
-            window.path.toLowerCase().includes(s) ||
+            (window.path != undefined && window.path.toLowerCase().includes(s))
             // @ts-ignore
-            window.getTitle().toLowerCase().includes(s)
+            || window.getTitle().toLowerCase().includes(s)
         );
     }
 
-    static logStr(window: Window) {
+    static toLogStr(window: Window) {
         try {
             return `title:${window.getTitle()}, path:${window.path}, bounds:${window.getBounds().letZ(it => [it.x, it.y, it.width, it.height])}, isVisible:${window.isVisible()} ownerPath:${window.getOwner().path}, ownerTitle:${window.getOwner().getTitle()}`
         } catch {
@@ -57,6 +57,8 @@ export default class WindowUtil {
             const windowZ = windowManager.getActiveWindow()
             if (WindowUtil.relaxedEquals(windowZ, ...strings))
                 return windowZ
+            else
+                Log.v(`non match. strings:${strings} windowZ:${this.toLogStr(windowZ)}`)
             sleep(500)
         }
     }
