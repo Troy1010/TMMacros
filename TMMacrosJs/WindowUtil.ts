@@ -45,7 +45,11 @@ export default class WindowUtil {
     }
 
     static logStr(window: Window) {
-        return `title:${window.getTitle()}, path:${window.path}, bounds:${window.getBounds().letZ(it => [it.x, it.y, it.width, it.height])}, isVisible:${window.isVisible()} ownerPath:${window.getOwner().path}, ownerTitle:${window.getOwner().getTitle()}`
+        try {
+            return `title:${window.getTitle()}, path:${window.path}, bounds:${window.getBounds().letZ(it => [it.x, it.y, it.width, it.height])}, isVisible:${window.isVisible()} ownerPath:${window.getOwner().path}, ownerTitle:${window.getOwner().getTitle()}`
+        } catch {
+            return `title:${window.getTitle()}, path:${window.path}, bounds:${window.getBounds().letZ(it => [it.x, it.y, it.width, it.height])}, isVisible:${window.isVisible()}`
+        }
     }
 
     static waitForActiveWindow(...strings: string[]) {
