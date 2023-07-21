@@ -129,6 +129,13 @@ export class API {
 
     @logMethodName
     @logExecutionTime
+    static openWorkBacklog() {
+        DebugHelper.openLog()
+    }
+
+
+    @logMethodName
+    @logExecutionTime
     static bossThenOblivion() {
         open2(config().bossFile, false)
         WindowUtil.waitForWindow("Boss")
