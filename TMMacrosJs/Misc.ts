@@ -17,6 +17,27 @@ import ListUtil from "./ListUtil";
 //     });
 // }
 
+export function isObsidianRunning() {
+    return new Promise((resolve, reject) => {
+      // Execute the shell command to list the running processes
+      exec('ps -A', (error, stdout, stderr) => {
+        if (error) {
+          console.error('Error checking for processes:', error.message);
+          reject(error);
+          return;
+        }
+  
+        // Check if Obsidian is among the running processes
+        if (stdout.toLowerCase().includes('obsidian')) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+}
+
+
 export function quit(s: string) {
     if (osType == OSType.Windows) {
         exec(`taskkill /F /IM ${s}`, (error, stdout, stderr) => {

@@ -21,7 +21,18 @@ export class API {
     @logMethodName
     @logExecutionTime
     static playground() {
-        logz("Hello")
+        logz("Hello");
+
+        (async () => {
+            const isRunning = await Misc.isObsidianRunning();
+            if (isRunning) {
+              logz('Obsidian is currently running.');
+            } else {
+              logz('Obsidian is not running.');
+            }
+          })();
+
+        
 
         //open2(config().bossFile, false)
 
