@@ -21,120 +21,8 @@ export class API {
     @logMethodName
     @logExecutionTime
     static playground() {
-        logz("Hello");
-
-        (async () => {
-            const isRunning = await Misc.isProcessRunning("Obsidian");
-            if (isRunning) {
-              logz('Obsidian is currently running.');
-            } else {
-              logz('Obsidian is not running.');
-            }
-          })();
-
-        
-
-        //open2(config().bossFile, false)
-
-
-        // if (osType == OSType.Windows) {
-        //     const command = `PowerShell -Command "Add-Type -AssemblyName PresentationFramework;[System.Windows.MessageBox]::Show('Hello World')"`
-        //     exec(command, (error, stdout, stderr) => {
-        //         if (error) {
-        //             Log.d(`Error executing command: ${error.message}`);
-        //             return;
-        //         }
-        //         Log.d(`Command output:\n${stdout}`);
-        //     });
-        // } else {
-        //     TODO()
-        // }
-
-
-        // PowerShell -Command "Add-Type -AssemblyName PresentationFramework;[System.Windows.MessageBox]::Show('Hello World')"
-
+        logz(`activeWindow:${WindowUtil.toLogStr(windowManager.getActiveWindow())}`)
         DebugHelper.openLog()
-
-        // Ext.create('Ext.window.MessageBox', {
-        //     alwaysOnTop: true,
-        //     closeAction: 'destroy'
-        // }).show({
-        //     title: 'Title',
-        //     buttons: Ext.Msg.OK,
-        //     message: 'Message'
-        // });
-
-
-        //alert("Hi")
-
-        // logz(`config():${config()}`)
-        //
-        // API.openGitClient()
-        //
-        //DebugHelper.openLog()
-
-        // windowManager.getActiveWindow().setBounds(ScreenSectionType.big_right.toRectangle())
-
-        // logz(`ScreenSectionType.big_right_two:${ScreenSectionType.big_right_two}`)
-        // logz(`isTaken:${WindowUtil.isTaken(ScreenSectionType.big_right_two)}`)
-        // logz(`takenScreenSections:${WindowUtil.takenScreenSections()}`)
-
-        //open2(`C:\\TMLocal\\Coding\\AllLanguages\\TMMacros\\TMMacrosJs\\TMLog.log`)
-
-        // logz(`windows:${windowManager.getWindows().filter(x => x.isVisible()).map(x => WindowUtil.logStr(x)).join("\n")}`)
-
-
-
-        // DebugHelper.logActiveWindow()
-
-        // const screenSections =
-        //     windowManager.getWindows()
-        //         .map((it: Window) => ScreenSection.fromRectangle(it.getBounds()))
-
-        // const window = windowManager.getActiveWindow()
-        // const cur_screen_section = Misc.activeWindowScreenSection();
-        // if (screenSections.includes([ScreenSectionType.big_right, ScreenSectionType.big_right_two, ScreenSectionType.big_right_two])) {
-
-        // } else if (screenSections.includes(ScreenSectionType.big_right)) {
-        //     window.setBounds(ScreenSectionType.big_right_two.toRectangle())
-        // } else if (cur_screen_section === ScreenSectionType.big_right_two) {
-        //     window.setBounds(ScreenSectionType.big_right_three.toRectangle())
-        // } else if (cur_screen_section === ScreenSectionType.big_right_three) {
-        //     window.setBounds(ScreenSectionType.big_right_four.toRectangle())
-        // } else if (cur_screen_section === ScreenSectionType.big_right_four) {
-        //     window.setBounds(ScreenSectionType.big_right_five.toRectangle())
-        // } else {
-        //     window.setBounds(ScreenSectionType.big_right.toRectangle())
-        // }
-
-        // let counter = 0;
-        // const intervalId = setInterval(() => {
-        //     counter++;
-        //     logz(`counter:${counter}`)
-
-        //     const windows =
-        //         windowManager.getWindows()
-        //             .filter((it: any) => WindowUtil.relaxedEquals(it, "gitkraken"))
-
-        //     const filteredProcessIDs =
-        //         windows
-        //             .filter((it: any) => it.getTitle() == "Default IME")
-        //             .map((it: any) => it.processId)
-
-
-        //     const returning =
-        //         !ListUtil.hasDuplicate(filteredProcessIDs) && (windows.length > 0)
-        //     logz(`returning:${returning}`)
-
-
-        //     windowManager.getWindows()
-        //         .filter((it: any) => WindowUtil.relaxedEquals(it, "gitkraken"))
-        //         .forEach((it: any) => logz(`path:${it.path} title:${it.getTitle()} q:${it.getOwner().getTitle()} w:${JSON.stringify(it.getBounds()).replace("\n", "")} h:${JSON.stringify(it).replace("\n", "")}`))
-
-        //     if (counter >= 1) {
-        //         clearInterval(intervalId);
-        //     }
-        // }, 2000);
     }
 
 
@@ -257,7 +145,7 @@ export class API {
         const window = windowManager.getActiveWindow()
         if (WindowUtil.isDesktop(window)) {
             Log.d("autoMove detected Desktop. Ignoring command.")
-        } else if (WindowUtil.relaxedEquals(window, "explorer.exe")) {
+        } else if (WindowUtil.relaxedEquals(window, "explorer.exe", "Finder")) {
             const cur_screen_section = Misc.activeWindowScreenSection();
             if (cur_screen_section === ScreenSectionType.bot_left) {
                 window.setBounds(ScreenSectionType.top_left.toRectangle())
