@@ -1,7 +1,7 @@
 import {Window, windowManager} from "node-window-manager";
 import {ScreenSection, ScreenSectionType} from "./ScreenSection";
 import {exec} from 'child_process';
-import {Log} from "./TMLogger";
+import {Log, logz} from "./TMLogger";
 import WindowUtil from "./WindowUtil";
 import OSType, {osType} from "./OSType";
 import {TODO} from "./TODO";
@@ -142,6 +142,7 @@ export function findWindow(...strings: string[]): Window | null {
 
 
 export function openFolderOrFile(folderPath: string) {
+    Log.d(`openFolderOrFile. folderPath:${folderPath}`)
     if (osType == OSType.Windows)
         exec(`start "" "${folderPath}"`, (error) => {
             if (error) {
@@ -151,7 +152,14 @@ export function openFolderOrFile(folderPath: string) {
             }
         })
     else
-        TODO()
+        exec(`open "${folderPath}"`, (error) => {
+            if (error) {
+                Log.d('Error opening folder:', error);
+                console.error('Error opening folder:', error);
+            } else {
+                Log.d('Folder opened successfully.');
+            }
+        })
 }
 
 export function sleep(ms: number): void {

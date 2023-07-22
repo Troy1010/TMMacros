@@ -52,6 +52,11 @@ export default class WindowUtil {
         }
     }
 
+    // Deprecated. Just use: windowManager.getWindows().find(x => WindowUtil.relaxedEquals(x, ...strings)) || null
+    static findWindow(...strings: string[]): Window | null {
+        return windowManager.getWindows().find(x => WindowUtil.relaxedEquals(x, ...strings)) || null;
+    }
+
     static waitForActiveWindow(...strings: string[]) {
         while (true) {
             const windowZ = windowManager.getActiveWindow()
@@ -65,11 +70,7 @@ export default class WindowUtil {
 
     static waitForWindow(...strings: string[]): Window {
         while (true) {
-            let foundWindow: Window | null = null;
-            windowManager.getWindows().forEach(windowZ => {
-                if (WindowUtil.relaxedEquals(windowZ, ...strings))
-                    foundWindow = windowZ
-            })
+            let foundWindow: Window | null = windowManager.getWindows().find(x => WindowUtil.relaxedEquals(x, ...strings)) || null
             if (foundWindow != null)
                 return foundWindow
             sleep(500)
@@ -78,11 +79,7 @@ export default class WindowUtil {
 
     static waitForNoWindow(...strings: string[]) {
         while (true) {
-            let foundWindow: Window | null = null;
-            windowManager.getWindows().forEach(windowZ => {
-                if (WindowUtil.relaxedEquals(windowZ, ...strings))
-                    foundWindow = windowZ
-            })
+            let foundWindow: Window | null = windowManager.getWindows().find(x => WindowUtil.relaxedEquals(x, ...strings)) || null
             if (foundWindow == null)
                 return
             sleep(500)

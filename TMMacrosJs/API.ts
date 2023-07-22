@@ -26,17 +26,21 @@ export class API {
     }
 
 
-    // TODO
     @logMethodName
     @logExecutionTime
     static openWorkBacklog() {
         (async () => {
-            // # If there is an old Obsidian window, kill it.
-            // ^This is a duct-tape solution bc I don't know how to move windows between desktops.
+            // # Handle if there is already an open Obsidian window.
             if (await Misc.isProcessRunning("Obsidian")) {
-                Log.d("Quitting isObsidianRunning bc it was running.")
-                Misc.quit("Obsidian")
-                sleep(2000) // TODO: race condition
+                const foundWindow = windowManager.getWindows().find(x => WindowUtil.relaxedEquals(x, "Obsidian")) || null
+                if (foundWindow != null && osType == OSType.Mac) { // I am not sure how to detect if a window exists in another desktop on Windows.. Only mac will return null if the window exists in another desktop.
+                    Log.d(`Moving Obsidian window to front bc Obsidian was running and its window was found. window:${foundWindow}`)
+                    foundWindow.bringToTop()
+                } else {
+                    Log.d("Quitting isObsidianRunning bc Obsidian was running and its window could not be found.")
+                    Misc.quit("Obsidian")
+                    sleep(2000) // TODO: race condition
+                }
             } else {
                 Log.d("Obsidian was not running. Moving forward.")
             }
@@ -62,17 +66,21 @@ export class API {
     }
 
 
-    // TODO
     @logMethodName
     @logExecutionTime
     static openWorkThoughtStream() {
         (async () => {
-            // # If there is an old Obsidian window, kill it.
-            // ^This is a duct-tape solution bc I don't know how to move windows between desktops.
+            // # Handle if there is already an open Obsidian window.
             if (await Misc.isProcessRunning("Obsidian")) {
-                Log.d("Quitting isObsidianRunning bc it was running.")
-                Misc.quit("Obsidian")
-                sleep(2000) // TODO: race condition
+                const foundWindow = windowManager.getWindows().find(x => WindowUtil.relaxedEquals(x, "Obsidian")) || null
+                if (foundWindow != null && osType == OSType.Mac) { // I am not sure how to detect if a window exists in another desktop on Windows.. Only mac will return null if the window exists in another desktop.
+                    Log.d(`Moving Obsidian window to front bc Obsidian was running and its window was found. window:${foundWindow}`)
+                    foundWindow.bringToTop()
+                } else {
+                    Log.d("Quitting isObsidianRunning bc Obsidian was running and its window could not be found.")
+                    Misc.quit("Obsidian")
+                    sleep(2000) // TODO: race condition
+                }
             } else {
                 Log.d("Obsidian was not running. Moving forward.")
             }
@@ -107,6 +115,16 @@ export class API {
         WindowUtil.waitForNoWindow("Boss")
         sleep(2000)
         open2(config().oblivionFile, false)
+    }
+
+
+    @logMethodName
+    @logExecutionTime
+    static openDefaultFolder() {
+        Misc.openFolderOrFile(config().developGenericFolder)
+        Misc.waitForActiveWindow("Explorer", "Finder")
+            .also (x => sleep(50)) // Without this sleep, the window does not react to .setBounds(), but I'm not sure why.
+            .setBounds(ScreenSectionType.bot_left.toRectangle())
     }
 
 
