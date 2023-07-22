@@ -44,7 +44,7 @@ export class API {
             } else {
                 Log.d("Obsidian was not running. Moving forward.")
             }
-            // # Open Obsidian at WorkThoughtStream
+            // # Open Obsidian at BACKLOG
             let command: string;
             if (osType == OSType.Windows) {
                 command = "start obsidian://open?vault=ObsidianVault_TroyGM&file=BACKLOG"

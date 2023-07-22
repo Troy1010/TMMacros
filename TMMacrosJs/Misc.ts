@@ -6,6 +6,9 @@ import WindowUtil from "./WindowUtil";
 import OSType, {osType} from "./OSType";
 import {TODO} from "./TODO";
 import ListUtil from "./ListUtil";
+import util from 'util';
+
+const promisifiedExec = util.promisify(exec);
 
 // export function launchFolder(s: string) {
 //     `explorer "${folderPath}"`
@@ -160,6 +163,24 @@ export function openFolderOrFile(folderPath: string) {
                 Log.d('Folder opened successfully.');
             }
         })
+}
+
+/**
+ * This version is async.
+ */
+export async function openFolderOrFile2(folderPath: string) {
+    Log.d(`openFolderOrFile2. folderPath:${folderPath}`);
+    try {
+        if (osType == OSType.Windows) {
+            await promisifiedExec(`start "" "${folderPath}"`);
+        } else {
+            await promisifiedExec(`open "${folderPath}"`);
+        }
+        Log.d('Folder opened successfully.');
+    } catch (error: any) {
+        Log.d('Error opening folder:', error);
+        console.error('Error opening folder:', error);
+    }
 }
 
 export function sleep(ms: number): void {
