@@ -112,6 +112,7 @@ export class API {
         open2(config().bossFile, false)
         WindowUtil.waitForWindow("Boss")
         WindowUtil.waitForNoWindow("Boss")
+        sleep(500)
         open2(config().oblivionFile, false)
         WindowUtil.waitForWindow("Oblivion")
     }
