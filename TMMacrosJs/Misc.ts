@@ -7,8 +7,13 @@ import OSType, {osType} from "./OSType";
 import {TODO} from "./TODO";
 import ListUtil from "./ListUtil";
 import util from 'util';
+import {IRectangle} from "node-window-manager/dist/interfaces";
 
 const promisifiedExec = util.promisify(exec);
+
+export function RectangleWithXY(rectangle: IRectangle, x: number, y: number) :IRectangle {
+    return {x: x, y: y, width: rectangle.width, height: rectangle.height}
+}
 
 // export function launchFolder(s: string) {
 //     `explorer "${folderPath}"`

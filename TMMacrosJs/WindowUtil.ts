@@ -44,14 +44,21 @@ export default class WindowUtil {
         );
     }
 
-    static toLogStr(window: Window) {
+    static toLogStr(window: Window | null) {
         try {
-            return `{ title:${window.getTitle()}, path:${window.path}, bounds:${window.getBounds().letZ(it => [it.x, it.y, it.width, it.height])}, isVisible:${window.isVisible()} ownerPath:${window.getOwner().path}, ownerTitle:${window.getOwner().getTitle()} }`
+            if (window == null)
+                return "null"
+            else
+                return `{ title:${window.getTitle()}, path:${window.path}, bounds:${window.getBounds().letZ(it => [it.x, it.y, it.width, it.height])}, isVisible:${window.isVisible()} ownerPath:${window.getOwner().path}, ownerTitle:${window.getOwner().getTitle()} }`
         } catch {
-            return `{ title:${window.getTitle()}, path:${window.path}, bounds:${window.getBounds().letZ(it => [it.x, it.y, it.width, it.height])}, isVisible:${window.isVisible()} }`
+            if (window == null)
+                return "null"
+            else
+                return `{ title:${window.getTitle()}, path:${window.path}, bounds:${window.getBounds().letZ(it => [it.x, it.y, it.width, it.height])}, isVisible:${window.isVisible()} }`
         }
     }
 
+    // TODO: This could be reused in WaitForWindow, etc.
     // Deprecated. Just use: windowManager.getWindows().find(x => WindowUtil.relaxedEquals(x, ...strings)) || null
     static findWindow(...strings: string[]): Window | null {
         return windowManager.getWindows().find(x => WindowUtil.relaxedEquals(x, ...strings)) || null;
