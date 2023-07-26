@@ -122,8 +122,8 @@ export class API {
     @logExecutionTime
     static openDefaultFolder() {
         Misc.openFolderOrFile(config().developGenericFolder)
-        Misc.waitForActiveWindow("Explorer", "Finder")
-            .also (x => sleep(50)) // Without this sleep, the window does not react to .setBounds(), but I'm not sure why.
+        WindowUtil.waitForActiveWindow("Explorer", "Finder")
+            .also(x => sleep(50)) // Without this sleep, the window does not react to .setBounds(), but I'm not sure why.
             .setBounds(ScreenSectionType.bot_left.toRectangle())
     }
 
@@ -149,10 +149,10 @@ export class API {
         } else {
             TODO()
         }
-        Misc.waitForActiveWindow("Obsidian")
+        WindowUtil.waitForActiveWindow("Obsidian")
             .also(x => x.setBounds(ScreenSectionType.big_right_three.toRectangle()))
-            // .also(x => WindowUtil.waitForNotActive(x))
-            // .also(x => ExecWrapper.kill(x.processId))
+        // .also(x => WindowUtil.waitForNotActive(x))
+        // .also(x => ExecWrapper.kill(x.processId))
     }
 
     @logMethodName
@@ -167,7 +167,7 @@ export class API {
         //     ?.also(x => x?.setBounds(ScreenSectionType.big_right_two.toRectangle()))
         // # Folder
         Misc.openFolderOrFile(config().developGenericFolder)
-        Misc.waitForActiveWindow("Explorer")
+        WindowUtil.waitForActiveWindow("Explorer")
             .setBounds(ScreenSectionType.bot_left.toRectangle())
     }
 
