@@ -133,10 +133,8 @@ XButton2 Up::
 LButton::
 	ResetGlobals()
 	if (GetKeyState("XButton2","P")) {
-		;RunTMMacroPy("open_obsidian.pyw")
-		RunTMMacroJs("launchObsidian.js")
+		MsgBox "Nothing is assigned for that key"
 	} else {
-		;RunTMMacroPy("setup_mutagen_plus.pyw")
 		RunTMMacroJs("openGitClient.js")
 	}
 	return
@@ -155,7 +153,7 @@ RButton::
 XButton1 Up::
 	ResetGlobals()
 	if (GetKeyState("XButton2","P")) {
-		MsgBox "Nothing is assigned for that key"
+		RunTMMacroJs("launchObsidian.js")
 	} else {
 		OpenFolderAndMoveToSection("C:\", Constants.ScreenSectionEnum.BotLeft)
 	}
