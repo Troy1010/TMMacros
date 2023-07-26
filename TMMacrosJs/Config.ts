@@ -10,6 +10,7 @@ export class Config extends Data {
         public developGenericFolder: string,
         public bossFile: string,
         public oblivionFile: string,
+        public oblivionPluginsFile: string,
     ) {
         super();
     }

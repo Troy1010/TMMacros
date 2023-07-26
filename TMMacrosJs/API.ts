@@ -105,6 +105,13 @@ export class API {
         })();
     }
 
+    @logMethodName
+    @logExecutionTime
+    static setOblivionPluginsFileToBaseline() {
+        logz(config().oblivionPluginsFile)
+        DebugHelper.openLog()
+    }
+
 
     @logMethodName
     @logExecutionTime
