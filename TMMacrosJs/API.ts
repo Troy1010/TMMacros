@@ -111,10 +111,12 @@ export class API {
     static bossThenOblivion() {
         open2(config().bossFile, false)
         WindowUtil.waitForWindow("Boss")
-            .bringToTop()
+            .also (x => x.bringToTop())
         WindowUtil.waitForNoWindow("Boss")
-        sleep(2000)
+        //sleep(2000) // I'm not sure if this is necessary.
         open2(config().oblivionFile, false)
+        WindowUtil.waitForWindow("Oblivion")
+            .bringToTop()
     }
 
 
