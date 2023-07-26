@@ -11,6 +11,26 @@ import {IRectangle} from "node-window-manager/dist/interfaces";
 
 const promisifiedExec = util.promisify(exec);
 
+export function trimIndent(s: string) {
+    // Split the string into lines
+    const lines = s.split('\n');
+
+    // Find the common leading whitespace (indentation)
+    // @ts-ignore
+    const commonIndent = lines.reduce((indent, line) => {
+        if (line.trim() !== '') {
+            // @ts-ignore
+            const lineIndent = line.match(/^\s*/)[0].length;
+            return (indent === null || lineIndent < indent) ? lineIndent : indent;
+        }
+        return indent;
+    }, null);
+
+    // Remove the common leading whitespace from each line
+    // @ts-ignore
+    return lines.map(line => line.slice(commonIndent)).join('\n');
+}
+
 export function RectangleWithXY(rectangle: IRectangle, x: number, y: number) :IRectangle {
     return {x: x, y: y, width: rectangle.width, height: rectangle.height}
 }

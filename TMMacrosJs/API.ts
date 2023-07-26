@@ -1,5 +1,5 @@
 import * as Misc from './Misc';
-import {openFolderOrFile, sleep, waitForActiveWindow} from './Misc';
+import {openFolderOrFile, sleep} from './Misc';
 import {ScreenSectionType} from "./ScreenSection";
 import OSType, {osType} from './OSType';
 import {Log, logz} from "./TMLogger";
@@ -14,8 +14,7 @@ import {logMethodName} from "./logMethodName";
 import {open2} from "./open2";
 import DebugHelper from "./DebugHelper";
 import ExecWrapper from "./ExecWrapper";
-import path from 'path';
-import {MsgBox} from "./MsgBox";
+import fs from "fs";
 
 export class API {
     @logMethodName
@@ -108,8 +107,13 @@ export class API {
     @logMethodName
     @logExecutionTime
     static setOblivionPluginsFileToBaseline() {
-        logz(config().oblivionPluginsFile)
-        DebugHelper.openLog()
+        const s =
+            Misc.trimIndent(`
+                Oblivion.esm
+                Tminus1010_^CommonFunctions.esm
+                Tminus1010_^CommonFunctionsChild.esp
+            `)
+        fs.writeFileSync(config().oblivionPluginsFile, s, {flag: 'w'})
     }
 
 
