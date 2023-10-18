@@ -87,7 +87,7 @@ ResetGlobals() {
 	SetTimer, WaiterXB2, off
 }
 IsDefaultContext() {
-	return !WinActive("Heroes of the Storm") and !WinActive("Warhammer: Vermintide 2") and !WinActive("Path") and !WinActive("Factorio") and !WinActive("Risk") and !WinActive("Monster Hunter Rise") and !WinActive("Dragon Age: Origins")and !WinActive("Dragon Age II")
+	return !WinActive("Heroes of the Storm") and !WinActive("Warhammer: Vermintide 2") and !WinActive("Path") and !WinActive("Factorio") and !WinActive("Risk") and !WinActive("Monster Hunter Rise") and !WinActive("Dragon Age: Origins") and !WinActive("Dragon Age II") and !WinActive("Oblivion") and !WinActive("Path of Exile")
 }
 OpenFolderAndMoveToSection(path, sectionEnumIndex) {
 	Run, Explorer %path%
@@ -252,8 +252,10 @@ XButton1::ResetGlobals(),ControlSend2(,"{space}","ahk_exe Google Play Music Desk
 #Include HotS.ahk
 #if WinActive("Warhammer: Vermintide 2")
 #Include Vermintide.ahk
-#if WinActive("Path")
+#if WinActive("Path of Exile")
 #Include PoE.ahk
+#if WinActive("Oblivion")
+#Include Oblivion.ahk
 #if WinActive("Dragon Age: Origins")
 #Include DragonAgeOrigins.ahk
 #if WinActive("Dragon Age II")
@@ -264,14 +266,14 @@ XButton1::ResetGlobals(),ControlSend2(,"{space}","ahk_exe Google Play Music Desk
 #Include RiskOfRain2.ahk
 #if WinActive("Monster Hunter Rise")
 #Include MonsterHunterRise.ahk
-;#if WinActive("Darktide")
-;F1::MsgBox2(NarrateWindow("ahk_id "+vMouseoverWin), true)
-#if true
-#Include SkypeMute.ahk
+#if WinActive("Darktide")
+F1::MsgBox2(NarrateWindow("ahk_id "+vMouseoverWin), true)
+;#if true
+;#Include SkypeMute.ahk
 #if (bDebug = true)
-F1::
-	RunTMMacroPy("playground.pyw")
-	return
+;F1::
+;	MsgBox2("aaa")
+;	return
 F2::
 	WinGetText, sText, A
 	MsgBox2("sText:" . sText)
