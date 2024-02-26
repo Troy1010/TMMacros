@@ -87,7 +87,7 @@ ResetGlobals() {
 	SetTimer, WaiterXB2, off
 }
 IsDefaultContext() {
-	return !WinActive("Heroes of the Storm") and !WinActive("Warhammer: Vermintide 2") and !WinActive("Path") and !WinActive("Factorio") and !WinActive("Risk") and !WinActive("Monster Hunter Rise") and !WinActive("Dragon Age: Origins") and !WinActive("Dragon Age II") and !WinActive("Oblivion") and !WinActive("Path of Exile")
+	return !WinActive("Heroes of the Storm") and !WinActive("Warhammer: Vermintide 2") and !WinActive("Path") and !WinActive("Factorio") and !WinActive("Risk") and !WinActive("Monster Hunter Rise") and !WinActive("Dragon Age: Origins") and !WinActive("Dragon Age II") and !WinActive("Oblivion") and !WinActive("Path of Exile") and !WinActive("BOKURA") and !WinActive("They Are Billions") and !WinActive("Check the error message :)") and !WinActive("FTL") and !WinActive(WinActive("GTFO"))
 }
 OpenFolderAndMoveToSection(path, sectionEnumIndex) {
 	Run, Explorer %path%
@@ -246,6 +246,8 @@ XButton1 Up::
 #if IsDefaultContext() and (iXB2Count == 4)
 RButton::EasyResetMode(),CloseChromeWindow()
 XButton1::ResetGlobals(),ControlSend2(,"{space}","ahk_exe Google Play Music Desktop Player.exe")
+#if WinActive("BOKURA")
+v::Enter
 #if WinActive("Dungeon of the Endless")
 #Include DungeonOfTheEndless.ahk
 #if WinActive("Heroes of the Storm")
@@ -254,6 +256,8 @@ XButton1::ResetGlobals(),ControlSend2(,"{space}","ahk_exe Google Play Music Desk
 #Include Vermintide.ahk
 #if WinActive("Path of Exile")
 #Include PoE.ahk
+#if WinActive("They Are Billions")
+#Include TheyAreBillions.ahk
 #if WinActive("Oblivion")
 #Include Oblivion.ahk
 #if WinActive("Dragon Age: Origins")
@@ -266,6 +270,10 @@ XButton1::ResetGlobals(),ControlSend2(,"{space}","ahk_exe Google Play Music Desk
 #Include RiskOfRain2.ahk
 #if WinActive("Monster Hunter Rise")
 #Include MonsterHunterRise.ahk
+#if WinActive("FTL") or WinActive("Check the error message :)")
+c::p
+v::Send { Enter }
+b::j
 #if WinActive("Darktide")
 F1::MsgBox2(NarrateWindow("ahk_id "+vMouseoverWin), true)
 ;#if true
