@@ -87,7 +87,7 @@ ResetGlobals() {
 	SetTimer, WaiterXB2, off
 }
 IsDefaultContext() {
-	return !WinActive("Heroes of the Storm") and !WinActive("Warhammer: Vermintide 2") and !WinActive("Path") and !WinActive("Factorio") and !WinActive("Risk") and !WinActive("Monster Hunter Rise") and !WinActive("Dragon Age: Origins") and !WinActive("Dragon Age II") and !WinActive("Oblivion") and !WinActive("Path of Exile") and !WinActive("BOKURA") and !WinActive("They Are Billions") and !WinActive("Check the error message :)") and !WinActive("FTL") and !WinActive(WinActive("GTFO"))
+	return !WinActive("Heroes of the Storm") and !WinActive("Warhammer: Vermintide 2") and !WinActive("Path") and !WinActive("Factorio") and !WinActive("Risk") and !WinActive("Monster Hunter Rise") and !WinActive("Dragon Age: Origins") and !WinActive("Dragon Age II") and !WinActive("Oblivion") and !WinActive("Path of Exile") and !WinActive("BOKURA") and !WinActive("They Are Billions") and !WinActive("Check the error message :)") and !WinActive("FTL") and !WinActive("GTFO") and !WinActive("WWZ CLIENT")
 }
 OpenFolderAndMoveToSection(path, sectionEnumIndex) {
 	Run, Explorer %path%
@@ -270,6 +270,8 @@ v::Enter
 #Include RiskOfRain2.ahk
 #if WinActive("Monster Hunter Rise")
 #Include MonsterHunterRise.ahk
+#if WinActive("WWZ CLIENT")
+#Include WWZ.ahk
 #if WinActive("FTL") or WinActive("Check the error message :)")
 c::p
 v::Send { Enter }
@@ -279,9 +281,9 @@ F1::MsgBox2(NarrateWindow("ahk_id "+vMouseoverWin), true)
 ;#if true
 ;#Include SkypeMute.ahk
 #if (bDebug = true)
-;F1::
-;	MsgBox2("aaa")
-;	return
+F1::
+	MsgBox2("aaa")
+	return
 F2::
 	WinGetText, sText, A
 	MsgBox2("sText:" . sText)
